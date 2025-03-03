@@ -22,7 +22,7 @@ public class InventarioService implements CRUD<Inventario> {
     }
 
     @Override
-    public Inventario buscar(String nombre) {
+    public Inventario ver(String nombre) {
         for (Inventario producto : inventario) {
             if (producto.getNombre().equalsIgnoreCase(nombre)) {
                 return producto;
@@ -33,7 +33,7 @@ public class InventarioService implements CRUD<Inventario> {
 
     @Override
     public void actualizar(Inventario item) {
-        Inventario producto = buscar(item.getNombre());
+        Inventario producto = ver(item.getNombre());
         if (producto != null) {
             producto.setCantidad(item.getCantidad());
         }
@@ -41,7 +41,7 @@ public class InventarioService implements CRUD<Inventario> {
 
     @Override
     public void eliminar(String nombre) {
-        Inventario producto = buscar(nombre);
+        Inventario producto = ver(nombre);
         if (producto != null) {
             inventario.remove(producto);
         }

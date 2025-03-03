@@ -7,8 +7,8 @@ package main.java.com.peluqueria.ui;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import main.java.com.peluqueria.model.Usuario;
-import main.java.com.peluqueria.ui.FrmInventario;
 import main.java.com.peluqueria.controller.LoginController;
+import main.java.com.peluqueria.ui.FrmCitas;
 
 /**
  *
@@ -153,21 +153,31 @@ public class FrmLogin extends javax.swing.JFrame {
         // Captura de datos de los componentes
         String username = txtUsuario.getText().trim();
         String password = new String(txtpassword.getPassword()).trim();
-        
-        if(username.isEmpty() || password.isEmpty()){
+
+        if (username.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Por favor ingrese usuario y contraseña", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
-        // Llamada al controlador para autenticar
-        Usuario usuario = loginController.authenticate(username, password);
+
+        // Llamada a la función de autenticación
+        autenticarUsuario(username, password);
+    }    
+
+    private void autenticarUsuario(String username, String contraseña) {
+        Usuario usuario = loginController.authenticate(username, contraseña);
+
         if (usuario != null) {
             JOptionPane.showMessageDialog(this, "Login exitoso. Rol: " + usuario.getRol());
-            // Aquí rediriges al menú principal o a otra pantalla según el rol
-            // Ejemplo:
-            // MainMenuFrame mainMenu = new MainMenuFrame();
-            // mainMenu.setVisible(true);
-            // this.dispose();
+
+            // Si es dueño, redirigir a su pantalla de administración
+            if (usuario.getRol().equalsIgnoreCase("dueño")) {
+                new FrmCitas().setVisible(true);
+            } else {
+                // Si es empleado, redirigir a su panel de trabajo
+                new FrmCitas().setVisible(true);
+            }
+
+            this.dispose(); // Cerrar la ventana de login
         } else {
             JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
         }

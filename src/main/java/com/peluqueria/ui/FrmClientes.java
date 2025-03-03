@@ -1,22 +1,81 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package main.java.com.peluqueria.ui;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
+import java.util.List;
+import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import main.java.com.peluqueria.controller.ClienteService;
+import main.java.com.peluqueria.model.Cliente;
+import java.sql.SQLException;
+
 /**
  *
- * @author LAB-USR-LCENTRO
+ * @author fabia
  */
-public class FrmClientes extends javax.swing.JPanel {
-
+public class FrmClientes extends javax.swing.JFrame {
+    private ClienteService clienteService = new ClienteService();
     /**
-     * Creates new form FrmClientes
+     * Creates new form FrmClientes2
      */
     public FrmClientes() {
         initComponents();
+        personalizarTabla();
     }
+    
+    private void limpiarCampos() {
+    txtnom_cli.setText("");
+    txtape_cli.setText("");
+    txtdni_cli.setText("");
+    txttel_cli.setText("");
+}
 
+    private void cargarTabla() {
+        DefaultTableModel modelo = (DefaultTableModel) tabla_cli.getModel();
+        modelo.setRowCount(0);
+
+        List<Cliente> clientes = clienteService.listarClientes();
+        for (Cliente c : clientes) {
+            modelo.addRow(new Object[]{c.getid_clientes(), c.getNombre(), c.getApellido(), c.getDni(), c.getTelefono()});
+        }
+    }
+    private void personalizarTabla() {
+        JTableHeader header = tabla_cli.getTableHeader();
+        header.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        header.setBackground(Color.WHITE);
+        header.setForeground(new Color(150, 150, 150)); // Color gris claro para los títulos
+
+        tabla_cli.setRowHeight(40);
+        tabla_cli.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        tabla_cli.setForeground(new Color(50, 50, 50)); // Texto en gris oscuro
+        tabla_cli.setBackground(Color.WHITE); // Fondo blanco
+        tabla_cli.setGridColor(Color.BLACK); // Líneas internas negras
+        tabla_cli.setShowHorizontalLines(true);
+        tabla_cli.setShowVerticalLines(true); // Líneas internas visibles
+        tabla_cli.setIntercellSpacing(new Dimension(1, 1)); // Espaciado de líneas más definido
+
+        // Quitar bordes externos
+        JScrollPane scrollPane = (JScrollPane) tabla_cli.getParent().getParent();
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+
+        // Renderizador personalizado para dar espacio y alineación izquierda
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+        renderer.setHorizontalAlignment(SwingConstants.LEFT);
+        renderer.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        tabla_cli.setDefaultRenderer(Object.class, renderer);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -26,19 +85,560 @@ public class FrmClientes extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        btnGuardar = new javax.swing.JButton();
+        btnVer = new javax.swing.JButton();
+        btnActualizar = new javax.swing.JButton();
+        btnBorrar = new javax.swing.JButton();
+        txtnom_cli = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        txtdni_cli = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        txttel_cli = new javax.swing.JTextField();
+        txtape_cli = new javax.swing.JTextField();
+        icon = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabla_cli = new javax.swing.JTable();
+        txtbus = new javax.swing.JTextField();
+        btnbuscar = new javax.swing.JButton();
+        icon1 = new javax.swing.JLabel();
+        NavBar2 = new javax.swing.JPanel();
+        Logo2 = new javax.swing.JLabel();
+        btnCerrarSesion2 = new javax.swing.JButton();
+        btnCitas2 = new javax.swing.JButton();
+        btnEmpleados = new javax.swing.JButton();
+        btnClientes1 = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(255, 244, 244));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        btnGuardar.setBackground(new java.awt.Color(255, 182, 193));
+        btnGuardar.setFont(new java.awt.Font("Ebrima", 1, 18)); // NOI18N
+        btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+
+        btnVer.setBackground(new java.awt.Color(255, 182, 193));
+        btnVer.setFont(new java.awt.Font("Ebrima", 1, 18)); // NOI18N
+        btnVer.setForeground(new java.awt.Color(255, 255, 255));
+        btnVer.setText("Ver tabla");
+        btnVer.setToolTipText("");
+        btnVer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerActionPerformed(evt);
+            }
+        });
+
+        btnActualizar.setBackground(new java.awt.Color(255, 182, 193));
+        btnActualizar.setFont(new java.awt.Font("Ebrima", 1, 18)); // NOI18N
+        btnActualizar.setForeground(new java.awt.Color(255, 255, 255));
+        btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
+
+        btnBorrar.setBackground(new java.awt.Color(255, 182, 193));
+        btnBorrar.setFont(new java.awt.Font("Ebrima", 1, 18)); // NOI18N
+        btnBorrar.setForeground(new java.awt.Color(255, 255, 255));
+        btnBorrar.setText("Borrar");
+        btnBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBorrarActionPerformed(evt);
+            }
+        });
+
+        txtnom_cli.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 182, 193)));
+        txtnom_cli.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtnom_cliActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Ebrima", 0, 16)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 99, 71));
+        jLabel1.setText("Nombre del cliente");
+
+        jLabel2.setFont(new java.awt.Font("Ebrima", 0, 16)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 99, 71));
+        jLabel2.setText("Apellido del cliente");
+
+        jLabel3.setFont(new java.awt.Font("Ebrima", 0, 16)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 99, 71));
+        jLabel3.setText("DNI");
+
+        txtdni_cli.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 182, 193)));
+        txtdni_cli.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtdni_cliActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setFont(new java.awt.Font("Ebrima", 0, 16)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 99, 71));
+        jLabel4.setText("Teléfono");
+
+        txttel_cli.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 182, 193)));
+        txttel_cli.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txttel_cliActionPerformed(evt);
+            }
+        });
+
+        txtape_cli.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 182, 193)));
+        txtape_cli.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtape_cliActionPerformed(evt);
+            }
+        });
+
+        icon.setFont(new java.awt.Font("Ebrima", 1, 24)); // NOI18N
+        icon.setForeground(new java.awt.Color(255, 99, 71));
+        icon.setText("Cliente");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnVer, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(66, 66, 66)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(txtnom_cli, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(txtape_cli))))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtdni_cli, javax.swing.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
+                            .addComponent(txttel_cli)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29)
+                        .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(148, 148, 148))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(icon)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(icon)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtnom_cli, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtape_cli, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtdni_cli, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txttel_cli, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnVer, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19))
+        );
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(77, 153, 1408, -1));
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        tabla_cli.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Nombre", "Apellido", "DNI", "Teléfono"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tabla_cli);
+        if (tabla_cli.getColumnModel().getColumnCount() > 0) {
+            tabla_cli.getColumnModel().getColumn(0).setMinWidth(100);
+            tabla_cli.getColumnModel().getColumn(0).setMaxWidth(105);
+        }
+
+        jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 1330, 200));
+
+        txtbus.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 182, 193)));
+        txtbus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtbusActionPerformed(evt);
+            }
+        });
+        jPanel3.add(txtbus, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 1050, 37));
+
+        btnbuscar.setBackground(new java.awt.Color(255, 182, 193));
+        btnbuscar.setFont(new java.awt.Font("Ebrima", 1, 18)); // NOI18N
+        btnbuscar.setForeground(new java.awt.Color(255, 255, 255));
+        btnbuscar.setText("Buscar");
+        btnbuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnbuscarActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnbuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 50, 210, 40));
+
+        icon1.setFont(new java.awt.Font("Ebrima", 1, 24)); // NOI18N
+        icon1.setForeground(new java.awt.Color(255, 99, 71));
+        icon1.setText("Resultado Cliente");
+        jPanel3.add(icon1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 220, -1));
+
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 430, 1410, 339));
+
+        NavBar2.setBackground(new java.awt.Color(255, 255, 255));
+        NavBar2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, null, null, new java.awt.Color(204, 204, 204)));
+        NavBar2.setPreferredSize(new java.awt.Dimension(1700, 80));
+        NavBar2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        Logo2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Logo.png"))); // NOI18N
+        NavBar2.add(Logo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 68, -1));
+
+        btnCerrarSesion2.setBackground(new java.awt.Color(255, 204, 204));
+        btnCerrarSesion2.setFont(new java.awt.Font("Ebrima", 1, 13)); // NOI18N
+        btnCerrarSesion2.setForeground(new java.awt.Color(255, 99, 71));
+        btnCerrarSesion2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Cerrar sesion.png"))); // NOI18N
+        btnCerrarSesion2.setText("Cerrar Sesion");
+        btnCerrarSesion2.setActionCommand("Citas");
+        btnCerrarSesion2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        NavBar2.add(btnCerrarSesion2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1360, 20, 150, 40));
+
+        btnCitas2.setBackground(new java.awt.Color(255, 228, 225));
+        btnCitas2.setFont(new java.awt.Font("Ebrima", 1, 13)); // NOI18N
+        btnCitas2.setForeground(new java.awt.Color(255, 99, 71));
+        btnCitas2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Citas.png"))); // NOI18N
+        btnCitas2.setText("Citas");
+        btnCitas2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnCitas2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCitas2ActionPerformed(evt);
+            }
+        });
+        NavBar2.add(btnCitas2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 20, 120, 40));
+
+        btnEmpleados.setBackground(new java.awt.Color(255, 228, 225));
+        btnEmpleados.setFont(new java.awt.Font("Ebrima", 1, 13)); // NOI18N
+        btnEmpleados.setForeground(new java.awt.Color(255, 99, 71));
+        btnEmpleados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/empleados.png"))); // NOI18N
+        btnEmpleados.setText("Empleados");
+        btnEmpleados.setActionCommand("Citas");
+        btnEmpleados.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnEmpleados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEmpleadosActionPerformed(evt);
+            }
+        });
+        NavBar2.add(btnEmpleados, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 20, 140, 40));
+
+        btnClientes1.setBackground(new java.awt.Color(255, 228, 225));
+        btnClientes1.setFont(new java.awt.Font("Ebrima", 1, 13)); // NOI18N
+        btnClientes1.setForeground(new java.awt.Color(255, 99, 71));
+        btnClientes1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Clientes.png"))); // NOI18N
+        btnClientes1.setText("Clientes");
+        btnClientes1.setActionCommand("Citas");
+        btnClientes1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnClientes1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClientes1ActionPerformed(evt);
+            }
+        });
+        NavBar2.add(btnClientes1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 20, 120, 40));
+
+        jPanel1.add(NavBar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1540, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        String nombre = txtnom_cli.getText().trim();
+        String apellido = txtape_cli.getText().trim();
+        String dni = txtdni_cli.getText().trim();
+        String telefono = txttel_cli.getText().trim();
+
+        if (nombre.isEmpty() || apellido.isEmpty() || dni.isEmpty() || telefono.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        clienteService.agregarCliente(nombre, apellido, dni, telefono);
+        JOptionPane.showMessageDialog(this, "Cliente agregado correctamente.");
+        limpiarCampos();
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerActionPerformed
+        cargarTabla();
+    }//GEN-LAST:event_btnVerActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        int filaSeleccionada = tabla_cli.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Selecciona un cliente para actualizar.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String idCliente = tabla_cli.getValueAt(filaSeleccionada, 0).toString();
+        String nombre = txtnom_cli.getText();
+        String apellido = txtape_cli.getText();
+        String dni = txtdni_cli.getText();
+        String telefono = txttel_cli.getText();
+
+        if (nombre.isEmpty() || apellido.isEmpty() || dni.isEmpty() || telefono.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Llamamos al servicio para actualizar el cliente
+        clienteService.actualizarCliente(idCliente, nombre, apellido, dni, telefono);
+
+        // Confirmación
+        JOptionPane.showMessageDialog(this, "Cliente actualizado correctamente.");
+
+        // Recargar la tabla con los nuevos datos
+        cargarTabla();
+
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
+        int filaSeleccionada = tabla_cli.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Selecciona un cliente para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String idCliente = tabla_cli.getValueAt(filaSeleccionada, 0).toString();
+
+        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de eliminar este cliente?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            // Llamamos al servicio para eliminar el cliente
+            clienteService.eliminarCliente(idCliente);
+
+            // Confirmación
+            JOptionPane.showMessageDialog(this, "Cliente eliminado correctamente.");
+
+            // Recargar la tabla con los datos actualizados
+            cargarTabla();
+        }
+    }//GEN-LAST:event_btnBorrarActionPerformed
+
+    private void txtnom_cliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnom_cliActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtnom_cliActionPerformed
+
+    private void txtdni_cliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtdni_cliActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtdni_cliActionPerformed
+
+    private void txttel_cliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txttel_cliActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txttel_cliActionPerformed
+
+    private void txtape_cliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtape_cliActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtape_cliActionPerformed
+
+    private void txtbusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtbusActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtbusActionPerformed
+
+    private void btnbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscarActionPerformed
+        String criterio = txtbus.getText();
+    
+        if (criterio.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese un nombre, apellido o DNI para buscar.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        List<Cliente> clientesEncontrados = clienteService.buscarClientes(criterio);
+
+        if (!clientesEncontrados.isEmpty()) {
+            DefaultTableModel modelo = (DefaultTableModel) tabla_cli.getModel();
+            modelo.setRowCount(0); // Limpiar tabla antes de mostrar resultados
+
+            for (Cliente cliente : clientesEncontrados) {
+                modelo.addRow(new Object[]{
+                    cliente.getid_clientes(),
+                    cliente.getNombre(),
+                    cliente.getApellido(),
+                    cliente.getDni(),
+                    cliente.getTelefono()
+                });
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "No se encontraron clientes con ese criterio.", "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnbuscarActionPerformed
+
+    private void btnCitas2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCitas2ActionPerformed
+        FrmCitas nuevoFormulario = new FrmCitas();
+
+        // Hacer visible el nuevo formulario
+        nuevoFormulario.setVisible(true);
+
+        // Cerrar el formulario actual si es necesario (opcional)
+        this.setVisible(false);
+    }//GEN-LAST:event_btnCitas2ActionPerformed
+
+    private void btnEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmpleadosActionPerformed
+        try {
+            // Crear una nueva instancia del formulario al que deseas ir
+            FrmEmpleados nuevoFormulario = new FrmEmpleados();
+            
+            // Hacer visible el nuevo formulario
+            nuevoFormulario.setVisible(true);
+            
+            // Cerrar el formulario actual si es necesario (opcional)
+            this.setVisible(false);
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(FrmClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnEmpleadosActionPerformed
+
+    private void btnClientes1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientes1ActionPerformed
+        // Crear una nueva instancia del formulario al que deseas ir
+        FrmClientes nuevoFormulario = new FrmClientes();
+
+        // Hacer visible el nuevo formulario
+        nuevoFormulario.setVisible(true);
+
+        // Cerrar el formulario actual si es necesario (opcional)
+        this.setVisible(false);
+    }//GEN-LAST:event_btnClientes1ActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(FrmClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(FrmClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(FrmClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(FrmClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new FrmClientes().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Logo2;
+    private javax.swing.JPanel NavBar2;
+    private javax.swing.JButton btnActualizar;
+    private javax.swing.JButton btnBorrar;
+    private javax.swing.JButton btnCerrarSesion2;
+    private javax.swing.JButton btnCitas2;
+    private javax.swing.JButton btnClientes1;
+    private javax.swing.JButton btnEmpleados;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnVer;
+    private javax.swing.JButton btnbuscar;
+    private javax.swing.JLabel icon;
+    private javax.swing.JLabel icon1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tabla_cli;
+    private javax.swing.JTextField txtape_cli;
+    private javax.swing.JTextField txtbus;
+    private javax.swing.JTextField txtdni_cli;
+    private javax.swing.JTextField txtnom_cli;
+    private javax.swing.JTextField txttel_cli;
     // End of variables declaration//GEN-END:variables
 }

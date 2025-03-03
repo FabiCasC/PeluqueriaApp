@@ -17,27 +17,28 @@ import java.sql.SQLException;
 
 
 public class UsuarioDAOImpl implements UsuarioDAO {
+    private Connection conexion;
+
+    public UsuarioDAOImpl() throws SQLException {
+        conexion = DBConnection.getConnection(); 
+    }
 
     @Override
     public Usuario login(String username, String password) {
-        Usuario usuario = null;
-        String sql = "SELECT * FROM Usuario WHERE username = ? AND password = ?";
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-             
-             ps.setString(1, username);
-             ps.setString(2, password);
-             
-             try (ResultSet rs = ps.executeQuery()) {
-                 if (rs.next()) {
-                     String rol = rs.getString("rol");
-                     usuario = new Usuario(username, password, rol) {};
-                 }
-             }
-             
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        String sql = "SELECT username, contraseña, rol FROM Usuario WHERE username = ? AND contraseña = ?";
+        
+        try (PreparedStatement ps = conexion.prepareStatement(sql)) {
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return new Usuario(rs.getString("username"), rs.getString("contraseña"), rs.getString("rol")) {};
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al autenticar usuario: " + e.getMessage());
         }
-        return usuario;
+        return null;
     }
 }
+

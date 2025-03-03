@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface CRUD<T> {
     void crear(T item);
-    T buscar(String criterio);
+    T ver(String criterio);
     void actualizar(T item);
     void eliminar(String criterio);
     List<T> listar();

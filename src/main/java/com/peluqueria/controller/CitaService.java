@@ -1,56 +1,50 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package main.java.com.peluqueria.controller;
-import main.java.com.peluqueria.model.Cita;
-import main.java.com.peluqueria.model.Cliente;
-import main.java.com.peluqueria.model.Empleado;
-import java.util.ArrayList;
+
 import java.util.List;
+import java.sql.SQLException;
+import main.java.com.peluqueria.dao.CitaDAOImpl;
+import main.java.com.peluqueria.dao.EmpleadoDAOImpl;
+import main.java.com.peluqueria.model.Cita;
 
-/**
- *
- * @author LAB-USR-LCENTRO
- */
+import java.sql.Connection;
+import java.util.List;
+import main.java.com.peluqueria.dao.CitaDAO;
 
-public class CitaService implements CRUD<Cita> {
-    private List<Cita> citas = new ArrayList<>();
+public class CitaService {
+    private CitaDAOImpl citaDAO;
 
-    @Override
-    public void crear(Cita cita) {
-        citas.add(cita);
+    public CitaService(CitaDAO citaDAO) { 
+        this.citaDAO = (CitaDAOImpl) citaDAO;
     }
 
-    @Override
-    public Cita buscar(String criterio) {
-        for (Cita cita : citas) {
-            if (cita.getCliente().getDni().equals(criterio)) {
-                return cita;
-            }
+
+    public void registrarCita(Cita cita) {
+        if (cita.getFecha() == null || cita.getHora() == null || cita.getServicio().isEmpty()) {
+            throw new IllegalArgumentException("Los datos de la cita son inválidos");
         }
-        return null;
+        citaDAO.crear(cita);
     }
 
-    @Override
-    public void actualizar(Cita cita) {
-        Cita c = buscar(cita.getCliente().getDni());
-        if (c != null) {
-            // Actualizar cita
+    public Cita obtenerCita(int idCita) {
+        Cita cita = citaDAO.ver(String.valueOf(idCita));
+        if (cita == null) {
+            throw new RuntimeException("No se encontró la cita con ID: " + idCita);
         }
+        return cita;
     }
 
-    @Override
-    public void eliminar(String criterio) {
-        Cita cita = buscar(criterio);
-        if (cita != null) {
-            citas.remove(cita);
+    public void modificarCita(Cita cita) {
+        if (cita.getId_cita() <= 0) {
+            throw new IllegalArgumentException("ID de cita inválido");
         }
+        citaDAO.actualizar(cita);
     }
 
-    @Override
-    public List<Cita> listar() {
-        return citas;
+    public void cancelarCita(int idCita) {
+        citaDAO.eliminar(String.valueOf(idCita));
+    }
+
+    public List<Cita> listarCitas() {
+        return citaDAO.listar();
     }
 }
-
